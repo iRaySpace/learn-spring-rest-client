@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
     @PostMapping()
-    PaymentIntent createPayment(@RequestBody PaymentRequest paymentRequest) {
+    PaymentIntent createPayment(@RequestBody PaymentRequest paymentRequest) throws InterruptedException {
         PaymentIntent paymentIntent = new PaymentIntent();
 
         String id = "pi_" + UUID.randomUUID().toString().substring(0, 8);
@@ -21,6 +21,8 @@ public class PaymentController {
         paymentIntent.setCurrency(paymentRequest.getCurrency());
         paymentIntent.setPaymentMethod(paymentRequest.getPaymentMethod());
         paymentIntent.setStatus("completed");
+
+        Thread.sleep(5000);
 
         return paymentIntent;
     }
