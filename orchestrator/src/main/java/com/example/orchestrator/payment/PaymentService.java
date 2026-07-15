@@ -2,6 +2,7 @@ package com.example.orchestrator.payment;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -9,7 +10,11 @@ import org.springframework.web.client.RestClient;
 @Service
 public class PaymentService {
 
-    private RestClient restClient = RestClient.create("http://localhost:8090");
+    private RestClient restClient;
+
+    public PaymentService(@Value("${payment.service.url}") String paymentServiceUrl) {
+        restClient = RestClient.create(paymentServiceUrl);
+    }
 
     public PaymentRespDto createPayment() {
         PaymentReqDto paymentReqDto = new PaymentReqDto(
